@@ -48,6 +48,13 @@ cd dsh-task-board
 然后**刷新 DSH 页面**（或重启 DSH）即可看到「任务看板」tab。
 页面无变化时重启一次 DSH —— 补丁在启动时必然生效。
 
+### 方式一b：插件市场一键安装
+
+本插件已收录于 [awesome-dsh-plugin](https://awesome-dsh-plugin.com)（见市场
+`workflow` 分类）。装有 [dsh-market](https://github.com/dsh-market/dsh-market)
+插件市场后，打开 DSH **设置 → 插件市场**，搜索 `task-board` 即可一键安装，无需
+手动克隆。
+
 ### 方式二：手动安装
 
 1. 把本仓库内容放到 `~/.dsh/plugins/dsh-task-board/`（或任意目录）。
