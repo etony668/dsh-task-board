@@ -1,33 +1,39 @@
-# DSH 任务看板插件（dsh-task-board）
+English | [中文](README.zh.md)
 
-把 CodexFF 的项目任务看板移植为 **DeepSeek Harness（DSH）** 正式插件：会话内新增
-`对话 → 轨迹 → 任务看板` 三个 tab，看板为画布式面板（拖拽 / 层级 / 折叠），配套
-模型工具与同步技能，数据落在本地 JSON，无需任何外部服务。
+# DSH Task Board plugin (dsh-task-board)
 
-## 功能特性
+A port of the CodexFF project task board for **DeepSeek Harness (DSH)**: a new
+`Chat → Trajectory → Task Board` tab in the conversation view, canvas-style
+draggable panels, agent tools and a sync skill, with local JSON storage and no
+external services.
 
-- **会话视图 tab**：`对话 → 轨迹 → 任务看板`（`conversation.view`，order 20）。
-- **画布式看板**：每主任务一个子任务面板，面板可拖拽、磁吸对齐（25px 基准间距、
-  顶部行对齐、纵向堆叠自动水平居中）、折叠/展开；临时任务与业务任务分色标记。
-- **任务模型**：父子任务树、任务边界（目标/包含/不包含/验收）、勾选完成、
-  子任务全部完成时自动收口父任务；新增未完成子任务会级联重开祖先任务。
-- **模型工具**（与 CodexFF MCP 同名语义）：
-  - `board_get` / `board_revision`：读看板与修订号
-  - `board_sync`：批量创建/更新任务（一次调用内支持 `key` 引用）
-  - `task_create` / `task_update` / `task_delete`：单任务操作
-- **技能**：`dsh-task-board`（任务拆分与同步纪律），模型会自动加载。
-- **存储**：`$DSH_HOME/taskboards/<sha256(项目路径)>.json`，格式与 CodexFF 一致，
-  每个项目一个原子写入的 JSON 文件。
+## Features
 
-![会话视图：对话 → 轨迹 → 任务看板 tab](https://cdn.jsdelivr.net/gh/etony668/dsh-task-board@main/images/taskboard-tab.png)
+- **Conversation view tab**: `Chat → Trajectory → Task Board` (`conversation.view`, order 20).
+- **Canvas board**: one child panel per main task; panels are draggable with
+  snap alignment (25px base gap, top-row alignment, auto horizontal centering
+  for vertical stacks), collapsible; temporary tasks are color-marked.
+- **Task model**: parent/child task tree, task boundaries
+  (goal / scope / out of scope / acceptance), checkbox completion;
+  a parent task auto-closes when all its subtasks are complete, and adding an
+  incomplete child reopens all of its ancestors.
+- **Agent tools** (same semantics as the CodexFF MCP server):
+  - `board_get` / `board_revision` — read the board and its revision
+  - `board_sync` — batch create/update tasks (supports `key` references in one call)
+  - `task_create` / `task_update` / `task_delete` — single task operations
+- **Skill**: `dsh-task-board` (task splitting and sync discipline), auto-loaded by the agent.
+- **Storage**: `$DSH_HOME/taskboards/<sha256(project path)>.json`, CodexFF-compatible
+  format; one atomically written JSON file per project.
 
-![画布式看板：主任务与子任务面板布局](https://cdn.jsdelivr.net/gh/etony668/dsh-task-board@main/images/taskboard-canvas.png)
+![Conversation view: Chat → Trajectory → Task Board tab](https://cdn.jsdelivr.net/gh/etony668/dsh-task-board@main/images/taskboard-tab.png)
 
-## 安装
+![Canvas board: main task and subtask panels](https://cdn.jsdelivr.net/gh/etony668/dsh-task-board@main/images/taskboard-canvas.png)
 
-### 方式一：从 GitHub 克隆（推荐）
+## Installation
 
-**macOS / Linux（bash）**
+### Option 1: Clone from GitHub (recommended)
+
+**macOS / Linux (bash)**
 
 ```bash
 git clone https://github.com/etony668/dsh-task-board.git
@@ -35,7 +41,7 @@ cd dsh-task-board
 ./install.sh
 ```
 
-**Windows（PowerShell）**
+**Windows (PowerShell)**
 
 ```powershell
 git clone https://github.com/etony668/dsh-task-board.git
@@ -43,24 +49,27 @@ cd dsh-task-board
 .\install.ps1
 ```
 
-> Windows 用户也可以在 Git Bash 中运行 `./install.sh`（效果相同）。
+> Windows users can also run `./install.sh` from Git Bash (same result).
 
-然后**刷新 DSH 页面**（或重启 DSH）即可看到「任务看板」tab。
-页面无变化时重启一次 DSH —— 补丁在启动时必然生效。
+Then **refresh the DSH page** (or restart DSH) to see the `Task Board` tab.
+If the tab does not appear after a refresh, restart DSH once — the patch always
+applies at startup.
 
-### 方式一b：插件市场一键安装
+### Option 1b: One-click install from the plugin market
 
-本插件已收录于 [awesome-dsh-plugin](https://awesome-dsh-plugin.com)（见市场
-`workflow` 分类）。装有 [dsh-market](https://github.com/dsh-market/dsh-market)
-插件市场后，打开 DSH **设置 → 插件市场**，搜索 `task-board` 即可一键安装，无需
-手动克隆。
+This plugin has been submitted for listing on
+[awesome-dsh-plugin](https://awesome-dsh-plugin.com) (category `workflow`; takes
+effect once merged). With the
+[dsh-market](https://github.com/dsh-market/dsh-market) plugin installed, open
+DSH **Settings → Plugin Market**, search for `task-board` and install with one
+click — no manual clone needed.
 
-### 方式二：手动安装
+### Option 2: Manual install
 
-1. 把本仓库内容放到 `~/.dsh/plugins/dsh-task-board/`（或任意目录）。
-2. 运行 `./reinstall.sh` —— 它会把包复制进当前运行时
-   `node_modules/@deepseek-ai/dsh-task-board/` 并建立 profile 回退符号链接。
-3. 确认 `~/.dsh/cordis.patch.yml` 包含（不存在则创建）：
+1. Put this repository's contents into `~/.dsh/plugins/dsh-task-board/` (or any directory).
+2. Run `./reinstall.sh` — it copies the package into the current runtime's
+   `node_modules/@deepseek-ai/dsh-task-board/` and creates the profile fallback symlink.
+3. Make sure `~/.dsh/cordis.patch.yml` contains (create it if missing):
 
    ```yaml
    - insert:
@@ -68,65 +77,69 @@ cd dsh-task-board
          name: '@deepseek-ai/dsh-task-board'
    ```
 
-> `reinstall.sh` / `reinstall.ps1` 会自动探测 macOS / Windows / Linux 常见 DSH 运行时目录；
-> 探测不到时用 `DSH_TASK_BOARD_RUNTIME`（bash）或 `-RuntimeRoot`（PowerShell）指定：
-> - bash：`DSH_TASK_BOARD_RUNTIME="/path/to/runtime" ./reinstall.sh`
-> - PowerShell：`.\reinstall.ps1 -RuntimeRoot "C:\path\to\runtime"`
+> `reinstall.sh` / `reinstall.ps1` auto-detect common DSH runtime directories on
+> macOS / Windows / Linux. If detection fails, specify the path explicitly:
+> - bash: `DSH_TASK_BOARD_RUNTIME="/path/to/runtime" ./reinstall.sh`
+> - PowerShell: `.\reinstall.ps1 -RuntimeRoot "C:\path\to\runtime"`
 
-## 使用
+## Usage
 
-- 顶部 tab 切换到「任务看板」；看板内**无返回按钮**，返回对话用顶部「对话」tab，
-  键盘 `Tab` / `Esc` 也可返回（输入框聚焦时不劫持）。
-- 看板视图下底部消息框自动隐藏，避免遮挡。
-- 模型完成任务变更后会给出可点击的「查看任务看板」链接，点击即切换 tab。
+- Switch to the board via the top tab; there is **no back button** inside the
+  board — go back with the top `Chat` tab, or via keyboard `Tab` / `Esc`
+  (not hijacked while focus is in an input).
+- The bottom message composer is hidden on the board view to avoid overlap.
+- After task changes, the agent appends a clickable “view task board” link that
+  switches to the board tab without a page refresh.
 
-## 升级
+## Upgrade
 
-DSH 升级会生成新的运行时版本目录，`node_modules` 与 profile 符号链接需要重建：
+A DSH upgrade creates a new runtime version directory; the `node_modules` copy
+and the profile symlink must be rebuilt:
 
 ```bash
 cd ~/.dsh/plugins/dsh-task-board && ./reinstall.sh
 ```
 
-Windows：
+Windows:
 
 ```powershell
 cd $env:USERPROFILE\.dsh\plugins\dsh-task-board
 .\reinstall.ps1
 ```
 
-`cordis.patch.yml` 位于 `~/.dsh`，不受升级影响。
+`cordis.patch.yml` lives in `~/.dsh` and is unaffected by upgrades.
 
-## 卸载
+## Uninstall
 
 ```bash
-# 1) 从补丁中删除插件行（编辑 ~/.dsh/cordis.patch.yml，移除 - insert: 部分）
-# 2) 删除源码与运行时副本
+# 1) Remove the plugin row from the patch (edit ~/.dsh/cordis.patch.yml, drop the - insert: part)
+# 2) Delete the source and runtime copies
 rm -rf ~/.dsh/plugins/dsh-task-board
 rm -rf <runtime>/versions/*/node_modules/@deepseek-ai/dsh-task-board
 rm -f  ~/.dsh/profiles/node_modules/@deepseek-ai/dsh-task-board
-# 3) 数据（可选）：~/.dsh/taskboards/*.json
+# 3) Data (optional): ~/.dsh/taskboards/*.json
 ```
 
-## 目录结构
+## Repository layout
 
 ```
-index.js        包根入口（loader 以 <pkg>/index.js 解析；re-export lib/index.js）
-lib/index.js    host 插件（node ESM）：存储 + 工具 + 技能 + /api/task-board 路由
-lib/client.js   web 插件 bundle（__ModuleLoader__ 手工构建，仅依赖 react）
-package.json    dsh.client: { platform: web }，exports ./client
-install.sh      一键安装（复制 + 安装 + patch 写入，macOS/Linux bash）
-install.ps1     一键安装（Windows PowerShell）
-reinstall.sh    重装到当前运行时 node_modules + profile 回退符号链接（bash）
-reinstall.ps1   重装（Windows PowerShell）
+index.js        package root entry (loader resolves <pkg>/index.js; re-exports lib/index.js)
+lib/index.js    host plugin (node ESM): storage + tools + skill + /api/task-board route
+lib/client.js   web plugin bundle (hand-built __ModuleLoader__, react only)
+package.json    dsh.client: { platform: web }, exports ./client; dsh.bundle patch
+install.sh      one-click install (copy + install + patch write; macOS/Linux bash)
+install.ps1     one-click install (Windows PowerShell)
+reinstall.sh    reinstall into runtime node_modules + profile fallback symlink (bash)
+reinstall.ps1   reinstall (Windows PowerShell)
 ```
 
-## 开发
+## Development
 
-插件遵循 DSH 双端插件结构：host 端（Node ESM）提供存储/工具/技能/路由，
-client 端（浏览器 bundle）注册 `conversation.view` tab 并渲染看板。
-修改后 `./install.sh` 重装并刷新页面即可；host 端改动需重启 DSH。
+The plugin follows the DSH dual-end structure: the host side (Node ESM) provides
+storage/tools/skill/route, and the client side (browser bundle) registers the
+`conversation.view` tab and renders the board. After changes, run `./install.sh`
+and refresh the page; host-side changes need a DSH restart.
 
-## 许可证
+## License
 
 [MIT](./LICENSE)
