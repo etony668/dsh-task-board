@@ -77,12 +77,6 @@ rm -f  ~/.dsh/profiles/node_modules/@deepseek-ai/dsh-task-board
 # 3) 数据（可选）：~/.dsh/taskboards/*.json
 ```
 
-## 与 CodexFF 共享数据（可选）
-
-数据格式与 CodexFF 一致（sha256 文件名 + 相同字段）。如需共享：把
-`~/.dsh/taskboards/*.json` 移到 CodexFF 的 TaskBoards 目录，并将插件
-`lib/index.js` 中 `storageRoot()` 的数据根改为该目录。
-
 ## 目录结构
 
 ```
