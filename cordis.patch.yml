@@ -1,0 +1,3 @@
+- insert:
+    - id: task-board
+      name: '@deepseek-ai/dsh-task-board'
