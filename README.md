@@ -19,9 +19,9 @@
 - **存储**：`$DSH_HOME/taskboards/<sha256(项目路径)>.json`，格式与 CodexFF 一致，
   每个项目一个原子写入的 JSON 文件。
 
-![会话视图：对话 → 轨迹 → 任务看板 tab](images/任务看板0.png)
+![会话视图：对话 → 轨迹 → 任务看板 tab](images/taskboard-tab.png)
 
-![画布式看板：主任务与子任务面板布局](images/任务看板1.png)
+![画布式看板：主任务与子任务面板布局](images/taskboard-canvas.png)
 
 ## 安装
 
