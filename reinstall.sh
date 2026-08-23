@@ -54,12 +54,25 @@ mkdir -p "$PROFILES_NM"
 ln -sfn "$TARGET" "$PROFILES_NM/dsh-task-board"
 echo "已链接 $PROFILES_NM/dsh-task-board -> $TARGET"
 
-if ! grep -q "dsh-task-board" "$HOME/.dsh/cordis.patch.yml" 2>/dev/null; then
-  echo ""
-  echo "请把以下行加入 ~/.dsh/cordis.patch.yml（或运行 ./install.sh 自动写入）："
-  echo "  - insert:"
-  echo "      - id: task-board"
-  echo "        name: '@deepseek-ai/dsh-task-board'"
+# 3) 自动写入（或校验）cordis.patch.yml 插件行。
+PATCH="$HOME/.dsh/cordis.patch.yml"
+if ! grep -q "name: '@deepseek-ai/dsh-task-board'" "$PATCH" 2>/dev/null; then
+  TMP="$PATCH.tmp.$$"
+  {
+    if [ -f "$PATCH" ]; then
+      cat "$PATCH"
+    else
+      echo "# DSH 用户级补丁层：\$DSH_HOME/cordis.patch.yml"
+    fi
+    echo "- insert:"
+    echo "    - id: task-board"
+    echo "      name: '@deepseek-ai/dsh-task-board'"
+    echo ""
+  } > "$TMP"
+  mv "$TMP" "$PATCH"
+  echo "已写入 $PATCH"
+else
+  echo "cordis.patch.yml 已包含插件条目，跳过。"
 fi
 echo ""
 echo "完成：刷新 DSH 页面（或重启 DSH）后，「任务看板」tab 出现在 对话 → 轨迹 之后。"
