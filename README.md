@@ -27,11 +27,23 @@
 
 ### 方式一：从 GitHub 克隆（推荐）
 
+**macOS / Linux（bash）**
+
 ```bash
-git clone https://github.com/<你的账号>/dsh-task-board.git
+git clone https://github.com/etony668/dsh-task-board.git
 cd dsh-task-board
 ./install.sh
 ```
+
+**Windows（PowerShell）**
+
+```powershell
+git clone https://github.com/etony668/dsh-task-board.git
+cd dsh-task-board
+.\install.ps1
+```
+
+> Windows 用户也可以在 Git Bash 中运行 `./install.sh`（效果相同）。
 
 然后**刷新 DSH 页面**（或重启 DSH）即可看到「任务看板」tab。
 页面无变化时重启一次 DSH —— 补丁在启动时必然生效。
@@ -49,9 +61,10 @@ cd dsh-task-board
          name: '@deepseek-ai/dsh-task-board'
    ```
 
-> `reinstall.sh` 会自动探测 macOS / Windows / Linux 常见 DSH 运行时目录；
-> 探测不到时用 `DSH_TASK_BOARD_RUNTIME` 环境变量指定，例如：
-> `DSH_TASK_BOARD_RUNTIME="/path/to/runtime" ./reinstall.sh`
+> `reinstall.sh` / `reinstall.ps1` 会自动探测 macOS / Windows / Linux 常见 DSH 运行时目录；
+> 探测不到时用 `DSH_TASK_BOARD_RUNTIME`（bash）或 `-RuntimeRoot`（PowerShell）指定：
+> - bash：`DSH_TASK_BOARD_RUNTIME="/path/to/runtime" ./reinstall.sh`
+> - PowerShell：`.\reinstall.ps1 -RuntimeRoot "C:\path\to\runtime"`
 
 ## 使用
 
@@ -66,6 +79,13 @@ DSH 升级会生成新的运行时版本目录，`node_modules` 与 profile 符�
 
 ```bash
 cd ~/.dsh/plugins/dsh-task-board && ./reinstall.sh
+```
+
+Windows：
+
+```powershell
+cd $env:USERPROFILE\.dsh\plugins\dsh-task-board
+.\reinstall.ps1
 ```
 
 `cordis.patch.yml` 位于 `~/.dsh`，不受升级影响。
@@ -88,8 +108,10 @@ index.js        包根入口（loader 以 <pkg>/index.js 解析；re-export lib/
 lib/index.js    host 插件（node ESM）：存储 + 工具 + 技能 + /api/task-board 路由
 lib/client.js   web 插件 bundle（__ModuleLoader__ 手工构建，仅依赖 react）
 package.json    dsh.client: { platform: web }，exports ./client
-install.sh      一键安装（复制 + 安装 + patch 写入）
-reinstall.sh    重装到当前运行时 node_modules + profile 回退符号链接
+install.sh      一键安装（复制 + 安装 + patch 写入，macOS/Linux bash）
+install.ps1     一键安装（Windows PowerShell）
+reinstall.sh    重装到当前运行时 node_modules + profile 回退符号链接（bash）
+reinstall.ps1   重装（Windows PowerShell）
 ```
 
 ## 开发
