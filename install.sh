@@ -22,7 +22,7 @@ fi
 
 # 3) 写入 cordis.patch.yml。
 PATCH="$HOME/.dsh/cordis.patch.yml"
-if grep -q "name: '@deepseek-ai/dsh-task-board'" "$PATCH" 2>/dev/null; then
+if grep -q "name: '@etony668/dsh-task-board'" "$PATCH" 2>/dev/null; then
   echo "cordis.patch.yml 已包含插件条目，跳过。"
 else
   TMP="$PATCH.tmp.$$"
@@ -34,7 +34,7 @@ else
     fi
     echo "- insert:"
     echo "    - id: task-board"
-    echo "      name: '@deepseek-ai/dsh-task-board'"
+    echo "      name: '@etony668/dsh-task-board'"
     echo ""
   } > "$TMP"
   mv "$TMP" "$PATCH"

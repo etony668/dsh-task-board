@@ -31,7 +31,16 @@ external services.
 
 ## Installation
 
-### Option 1: Clone from GitHub (recommended)
+### Option 1: One command (recommended)
+
+```sh
+dsh plugin --profile web add @etony668/dsh-task-board
+```
+
+Then open or refresh the DSH web UI — the `Task Board` tab appears after
+`Trajectory`. The plugin is also listed in the plugin market (workflow category).
+
+### Option 2: Clone from GitHub (backup)
 
 **macOS / Linux (bash)**
 
@@ -68,13 +77,13 @@ click — no manual clone needed.
 
 1. Put this repository's contents into `~/.dsh/plugins/dsh-task-board/` (or any directory).
 2. Run `./reinstall.sh` — it copies the package into the current runtime's
-   `node_modules/@deepseek-ai/dsh-task-board/` and creates the profile fallback symlink.
+   `node_modules/@etony668/dsh-task-board/` and creates the profile fallback symlink.
 3. Make sure `~/.dsh/cordis.patch.yml` contains (create it if missing):
 
    ```yaml
    - insert:
        - id: task-board
-         name: '@deepseek-ai/dsh-task-board'
+         name: '@etony668/dsh-task-board'
    ```
 
 > `reinstall.sh` / `reinstall.ps1` auto-detect common DSH runtime directories on
@@ -115,8 +124,8 @@ cd $env:USERPROFILE\.dsh\plugins\dsh-task-board
 # 1) Remove the plugin row from the patch (edit ~/.dsh/cordis.patch.yml, drop the - insert: part)
 # 2) Delete the source and runtime copies
 rm -rf ~/.dsh/plugins/dsh-task-board
-rm -rf <runtime>/versions/*/node_modules/@deepseek-ai/dsh-task-board
-rm -f  ~/.dsh/profiles/node_modules/@deepseek-ai/dsh-task-board
+rm -rf <runtime>/versions/*/node_modules/@etony668/dsh-task-board
+rm -f  ~/.dsh/profiles/node_modules/@etony668/dsh-task-board
 # 3) Data (optional): ~/.dsh/taskboards/*.json
 ```
 

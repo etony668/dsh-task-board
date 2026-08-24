@@ -27,7 +27,16 @@
 
 ## 安装
 
-### 方式一：从 GitHub 克隆（推荐）
+### 方式一：一条命令安装（推荐）
+
+```sh
+dsh plugin --profile web add @etony668/dsh-task-board
+```
+
+然后打开或刷新 DSH 网页界面，「任务看板」tab 出现在「轨迹」之后。
+插件也已收录至插件市场（workflow 分类）。
+
+### 方式二：从 GitHub 克隆（备选）
 
 **macOS / Linux（bash）**
 
@@ -61,13 +70,13 @@ cd dsh-task-board
 
 1. 把本仓库内容放到 `~/.dsh/plugins/dsh-task-board/`（或任意目录）。
 2. 运行 `./reinstall.sh` —— 它会把包复制进当前运行时
-   `node_modules/@deepseek-ai/dsh-task-board/` 并建立 profile 回退符号链接。
+   `node_modules/@etony668/dsh-task-board/` 并建立 profile 回退符号链接。
 3. 确认 `~/.dsh/cordis.patch.yml` 包含（不存在则创建）：
 
    ```yaml
    - insert:
        - id: task-board
-         name: '@deepseek-ai/dsh-task-board'
+         name: '@etony668/dsh-task-board'
    ```
 
 > `reinstall.sh` / `reinstall.ps1` 会自动探测 macOS / Windows / Linux 常见 DSH 运行时目录；
@@ -105,8 +114,8 @@ cd $env:USERPROFILE\.dsh\plugins\dsh-task-board
 # 1) 从补丁中删除插件行（编辑 ~/.dsh/cordis.patch.yml，移除 - insert: 部分）
 # 2) 删除源码与运行时副本
 rm -rf ~/.dsh/plugins/dsh-task-board
-rm -rf <runtime>/versions/*/node_modules/@deepseek-ai/dsh-task-board
-rm -f  ~/.dsh/profiles/node_modules/@deepseek-ai/dsh-task-board
+rm -rf <runtime>/versions/*/node_modules/@etony668/dsh-task-board
+rm -f  ~/.dsh/profiles/node_modules/@etony668/dsh-task-board
 # 3) 数据（可选）：~/.dsh/taskboards/*.json
 ```
 

@@ -26,11 +26,11 @@ $Patch = "$HomeDsh\cordis.patch.yml"
 $Entry = @(
     "- insert:",
     "    - id: task-board",
-    "      name: '@deepseek-ai/dsh-task-board'"
+    "      name: '@etony668/dsh-task-board'"
 )
 $has = $false
 if (Test-Path $Patch) {
-    $has = Select-String -Path $Patch -Pattern "name: '@deepseek-ai/dsh-task-board'" -Quiet
+    $has = Select-String -Path $Patch -Pattern "name: '@etony668/dsh-task-board'" -Quiet
 }
 if ($has) {
     Write-Host "cordis.patch.yml already contains the plugin row, skipped."

@@ -36,7 +36,7 @@ Write-Host "Runtime root: $Root"
 Write-Host "Active version: $version"
 
 # --- 1) Copy into the runtime node_modules --------------------------------
-$Target = Join-Path $Root "versions\$version\node_modules\@deepseek-ai\dsh-task-board"
+$Target = Join-Path $Root "versions\$version\node_modules\@etony668\dsh-task-board"
 $TargetDir = Split-Path $Target -Parent
 New-Item -ItemType Directory -Force -Path $TargetDir | Out-Null
 if (Test-Path $Target) { Remove-Item -Recurse -Force $Target }
@@ -45,7 +45,7 @@ Write-Host "Installed to $Target"
 
 # --- 2) Profile fallback link (node resolves plugins from ~/.dsh/profiles/web).
 #        A junction needs no admin rights; fall back to a copy if it fails.
-$ProfilesNm = "$env:USERPROFILE\.dsh\profiles\node_modules\@deepseek-ai"
+$ProfilesNm = "$env:USERPROFILE\.dsh\profiles\node_modules\@etony668"
 New-Item -ItemType Directory -Force -Path $ProfilesNm | Out-Null
 $LinkPath = Join-Path $ProfilesNm "dsh-task-board"
 if (Test-Path $LinkPath) {
@@ -67,7 +67,7 @@ if (Test-Path $Patch) {
         Write-Host "Add this to $Patch (or run .\install.ps1 to do it automatically):" -ForegroundColor Yellow
         Write-Host "  - insert:" -ForegroundColor Yellow
         Write-Host "      - id: task-board" -ForegroundColor Yellow
-        Write-Host "        name: '@deepseek-ai/dsh-task-board'" -ForegroundColor Yellow
+        Write-Host "        name: '@etony668/dsh-task-board'" -ForegroundColor Yellow
     }
 }
 

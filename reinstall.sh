@@ -41,7 +41,7 @@ fi
 VERSION="${CURRENT#versions/}"
 
 # 1) 安装到当前运行时 node_modules（clientModules 扫描与 loader 的解析锚点）。
-TARGET="$RUNTIME_ROOT/versions/$VERSION/node_modules/@deepseek-ai/dsh-task-board"
+TARGET="$RUNTIME_ROOT/versions/$VERSION/node_modules/@etony668/dsh-task-board"
 mkdir -p "$(dirname "$TARGET")"
 rm -rf "$TARGET"
 cp -R "$SOURCE_DIR" "$TARGET"
@@ -49,14 +49,14 @@ echo "已安装到 $TARGET"
 
 # 2) profile 模块回退目录符号链接（loader 从 ~/.dsh/profiles/web 解析插件包，
 #    回退目录按包名逐个链接到运行时 node_modules）。
-PROFILES_NM="$HOME/.dsh/profiles/node_modules/@deepseek-ai"
+PROFILES_NM="$HOME/.dsh/profiles/node_modules/@etony668"
 mkdir -p "$PROFILES_NM"
 ln -sfn "$TARGET" "$PROFILES_NM/dsh-task-board"
 echo "已链接 $PROFILES_NM/dsh-task-board -> $TARGET"
 
 # 3) 自动写入（或校验）cordis.patch.yml 插件行。
 PATCH="$HOME/.dsh/cordis.patch.yml"
-if ! grep -q "name: '@deepseek-ai/dsh-task-board'" "$PATCH" 2>/dev/null; then
+if ! grep -q "name: '@etony668/dsh-task-board'" "$PATCH" 2>/dev/null; then
   TMP="$PATCH.tmp.$$"
   {
     if [ -f "$PATCH" ]; then
@@ -66,7 +66,7 @@ if ! grep -q "name: '@deepseek-ai/dsh-task-board'" "$PATCH" 2>/dev/null; then
     fi
     echo "- insert:"
     echo "    - id: task-board"
-    echo "      name: '@deepseek-ai/dsh-task-board'"
+    echo "      name: '@etony668/dsh-task-board'"
     echo ""
   } > "$TMP"
   mv "$TMP" "$PATCH"
