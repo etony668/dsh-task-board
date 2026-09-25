@@ -18,8 +18,12 @@
   - `board_sync`：批量创建/更新任务（一次调用内支持 `key` 引用）
   - `task_create` / `task_update` / `task_delete`：单任务操作
 - **技能**：`dsh-task-board`（任务拆分与同步纪律），模型会自动加载。
-- **存储**：`$DSH_HOME/taskboards/<sha256(项目路径)>.json`，格式与 CodexFF 一致，
-  每个项目一个原子写入的 JSON 文件。
+- **存储**：`<项目目录>/.dsh-taskboard/board.json` —— 看板随项目走（可提交进版本库）。
+  每次变更前会把上一版快照到 `<项目>/.dsh-taskboard/backups/`（保留最近 10 份，自动生成
+  `.gitignore` 忽略），同时写入全局镜像
+  `$DSH_HOME/taskboards/<sha256(项目路径)>.json`。读取链：项目主文件 → 最新备份 →
+  全局镜像 → 空看板（走兜底时会自动回写主文件），所有写入均为原子写。格式与 CodexFF
+  一致；项目目录只读时自动退化为仅写全局镜像。
 
 ![会话视图：对话 → 轨迹 → 任务看板 tab](https://cdn.jsdelivr.net/gh/etony668/dsh-task-board@main/images/taskboard-tab.png)
 
@@ -111,12 +115,15 @@ cd $env:USERPROFILE\.dsh\plugins\dsh-task-board
 ## 卸载
 
 ```bash
+# 官方桌面版：在「设置 → 插件」里卸载，或调用
+#   plugin_manager remove_bundle @etony668/dsh-task-board
+
+# 旧版（复制进 runtime 版本目录）安装方式卸载：
 # 1) 从补丁中删除插件行（编辑 ~/.dsh/cordis.patch.yml，移除 - insert: 部分）
-# 2) 删除源码与运行时副本
 rm -rf ~/.dsh/plugins/dsh-task-board
 rm -rf <runtime>/versions/*/node_modules/@etony668/dsh-task-board
 rm -f  ~/.dsh/profiles/node_modules/@etony668/dsh-task-board
-# 3) 数据（可选）：~/.dsh/taskboards/*.json
+# 2) 数据（可选）：<项目>/.dsh-taskboard/ 与 ~/.dsh/taskboards/*.json
 ```
 
 ## 目录结构

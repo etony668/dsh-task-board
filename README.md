@@ -22,8 +22,14 @@ external services.
   - `board_sync` — batch create/update tasks (supports `key` references in one call)
   - `task_create` / `task_update` / `task_delete` — single task operations
 - **Skill**: `dsh-task-board` (task splitting and sync discipline), auto-loaded by the agent.
-- **Storage**: `$DSH_HOME/taskboards/<sha256(project path)>.json`, CodexFF-compatible
-  format; one atomically written JSON file per project.
+- **Storage**: `<project>/.dsh-taskboard/board.json` — the board travels with the
+  project (safe to commit). Every change first snapshots the previous revision into
+  `<project>/.dsh-taskboard/backups/` (last 10 kept, ignored via a generated
+  `.gitignore`), and a global mirror is written to
+  `$DSH_HOME/taskboards/<sha256(project path)>.json`. Reads fall back
+  project file → latest backup → global mirror → empty board, re-writing the main file
+  whenever a fallback is used; all writes are atomic. CodexFF-compatible format; if the
+  project directory is read-only the plugin degrades to the global mirror only.
 
 ![Conversation view: Chat → Trajectory → Task Board tab](https://cdn.jsdelivr.net/gh/etony668/dsh-task-board@main/images/taskboard-tab.png)
 
@@ -122,11 +128,14 @@ cd $env:USERPROFILE\.dsh\plugins\dsh-task-board
 
 ```bash
 # 1) Remove the plugin row from the patch (edit ~/.dsh/cordis.patch.yml, drop the - insert: part)
+# Official desktop app: uninstall from Settings → Plugins, or
+#   plugin_manager remove_bundle @etony668/dsh-task-board
+# Legacy (copied into a runtime version directory):
 # 2) Delete the source and runtime copies
 rm -rf ~/.dsh/plugins/dsh-task-board
 rm -rf <runtime>/versions/*/node_modules/@etony668/dsh-task-board
 rm -f  ~/.dsh/profiles/node_modules/@etony668/dsh-task-board
-# 3) Data (optional): ~/.dsh/taskboards/*.json
+# 3) Data (optional): <project>/.dsh-taskboard/ and ~/.dsh/taskboards/*.json
 ```
 
 ## Repository layout
