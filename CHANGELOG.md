@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.5 (2026-09-29)
+
+- 「切换项目」面板新增「浏览…」：调用 DSH 原生目录选择器挑目录，不必再粘贴路径。
+- 自动识别再加两个来源（sessions.scope / sessions.binding 上的 cwd、工作区路径字段），
+  并把 client 依赖声明为 slots/timer/locale/uiWorkspace。
+
 ## 1.1.4 (2026-09-28)
 
 - 新增「切换项目」：看板头部显示当前识别的项目目录，旁边一个「切换项目」按钮，
