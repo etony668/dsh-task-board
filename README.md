@@ -37,6 +37,14 @@ external services.
 
 ## Installation
 
+> ⚠️ **Always install and update through the plugin manager** (the Plugins panel, or
+> `dsh plugin add <path-or-package>`). Do **not** hand-edit your profile's
+> `package.json` to add a `link:` dependency: when a plugin appears in both
+> `dsh.profile.bundles` and `dependencies`, the plugin manager refuses to update it
+> with `ambiguous-install` (DSH 0.20+). If you already did that, delete the
+> hand-written entry and install once more — the manager will write the correct
+> dependency itself.
+
 ### Option 1: One command (recommended)
 
 ```sh

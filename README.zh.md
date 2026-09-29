@@ -31,6 +31,12 @@
 
 ## 安装
 
+> ⚠️ **请一律通过插件管理器安装与更新**（插件面板，或 `dsh plugin add <路径或包名>`）。
+> **不要**手工编辑 profile 的 `package.json` 去添加 `link:` 依赖：当插件同时出现在
+> `dsh.profile.bundles` 与 `dependencies` 里时，插件管理器会以 `ambiguous-install`
+> 拒绝更新（DSH 0.20+）。若已手工加过，删掉那条手工声明后重装一次即可——管理器会
+> 自己写入正确的依赖。
+
 ### 方式一：一条命令安装（推荐）
 
 ```sh
